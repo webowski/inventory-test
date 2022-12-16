@@ -16,15 +16,15 @@ import Item from '@/components/Item.vue'
 
 const initialItems = [
 	{
-		type: 1,
+		type: 'a',
 		quantity: 4
 	},
 	{
-		type: 2,
+		type: 'b',
 		quantity: 2
 	},
 	{
-		type: 3,
+		type: 'c',
 		quantity: 5
 	}
 ]
