@@ -58,7 +58,7 @@ const props = defineProps({
 	position: absolute;
 	bottom: 0;
 	right: 0;
-	color: rgba(#ffffff, 0.4);
+	color: var(--muted);
 	background-color: var(--bg-secondary);
 	border-top: 1px solid var(--border);
 	border-left: 1px solid var(--border);

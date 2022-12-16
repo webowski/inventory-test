@@ -5,12 +5,12 @@
 	justify-content: center;
 	border: 1px solid transparent;
 	appearance: none;
-	background: var(--intense) none;
+	background: var(--white) none;
 	border-radius: 8px;
 	color: var(--inverse);
 	font-size: 0.875rem;
 	line-height: 1rem;
-	font-family: var(--fontExtra);
+	font-family: var(--font-main);
 	font-weight: 400;
 	letter-spacing: -0.02em;
 	text-decoration: none;
@@ -36,5 +36,5 @@
 
 .button--danger {
 	background-color: var(--danger);
-	color: var(--intense);
+	color: var(--white);
 }

@@ -3,7 +3,7 @@
 	height: 198px;
 	margin-left: auto;
 	margin-right: auto;
-	background-image: linear-gradient(90deg, #3c3c3c 0%, #444444 51.04%, #333333 100%);
+	background-image: var(--skeleton-gradient);
 	background-size: cover;
 	mask-image: url('@/images/skeleton.svg');
 	mask-size: contain;

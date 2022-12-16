@@ -1,20 +1,20 @@
 :root {
-	--major: rgba(255, 255, 255, 0.87);
-	--muted: rgba(255, 255, 255, 0.4);
-	--bg: #1d1d1d;
-	--bg-secondary: #242424;
-	--bg-hover: #2f2f2f;
-	--bg-overlay: #{rgba(#262626, 0.6)};
-	--border: #4d4d4d;
-	--danger: #fa7272;
-	--inverse: #2d2d2d;
-	--intense: #ffffff;
+	--white: #ffffff;
+	--intense: #1d1d1d;
+	--major: #213547;
+	--danger: #{darken(#fa7272, 7)};
+	--bg: #f0f0f5;
+	--bg-secondary: #fafafc;
+	--border: #cccccc;
+	--bg-overlay: #{rgba(#ffffff, 0.6)};
+
+	--skeleton-gradient: linear-gradient(90deg, #e9e9eb 0%, #ececed 51.04%, #e6e6e9 100%);
+
+	--cursor-default: url('@/images/cursor-default-light.svg'), default;
+	--cursor-pointer: url('@/images/cursor-pointer-light.svg'), pointer;
+	--cursor-move: url('@/images/cursor-move-light.svg'), move;
 
 	--font-main: 'Inter', sans-serif;
-
-	--cursor-default: url('@/images/cursor-default.svg'), default;
-	--cursor-pointer: url('@/images/cursor-pointer.svg'), pointer;
-	--cursor-move: url('@/images/cursor-move.svg'), grabbing;
 
 	--duration-sm: 0.12s;
 	--duration-md: 0.2s;
@@ -29,16 +29,23 @@
 	--radius-xxl: 24px;
 }
 
-// @media (prefers-color-scheme: light) {
-// 	:root {
-// 		--major: #213547;
-// 		--bg: #ffffff;
-// 		--bg-secondary: #f0f0f0;
-// 		--border: #eee;
-// 		--bg-overlay: #{rgba(#aaaaaa, 0.6)};
+@media (prefers-color-scheme: dark) {
+	:root {
+		--major: rgba(255, 255, 255, 0.87);
+		--muted: rgba(255, 255, 255, 0.4);
+		--bg: #1d1d1d;
+		--bg-secondary: #242424;
+		--bg-hover: #2f2f2f;
+		--bg-overlay: #{rgba(#262626, 0.6)};
+		--border: #4d4d4d;
+		--danger: #fa7272;
+		--inverse: #2d2d2d;
+		--intense: #ffffff;
 
-// 		--cursor-default: url('@/images/cursor-default-light.svg'), default;
-// 		--cursor-pointer: url('@/images/cursor-pointer-light.svg'), pointer;
-// 		--cursor-move: url('@/images/cursor-move-light.svg'), move;
-// 	}
-// }
+		--skeleton-gradient: linear-gradient(90deg, #3c3c3c 0%, #444444 51.04%, #333333 100%);
+
+		--cursor-default: url('@/images/cursor-default.svg'), default;
+		--cursor-pointer: url('@/images/cursor-pointer.svg'), pointer;
+		--cursor-move: url('@/images/cursor-move.svg'), move;
+	}
+}
