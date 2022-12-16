@@ -9,14 +9,14 @@
 import Figure from '@/components/Figure.vue'
 import { onMounted, ref } from 'vue'
 
+const item = ref(null)
+
 const props = defineProps({
 	data: {
 		type: Object,
 		required: true
 	}
 })
-
-const item = ref(null)
 </script>
 
 <style lang="scss">
@@ -46,7 +46,7 @@ const item = ref(null)
 	border: 1px solid var(--border);
 	background-color: var(--bg-secondary);
 
-	.items__quantity {
+	.item__quantity {
 		visibility: hidden;
 	}
 }

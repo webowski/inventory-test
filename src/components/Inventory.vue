@@ -1,10 +1,19 @@
 <template>
 	<div class="inventory">
-		<div class="inventory__cell" v-for="(cell, index) in 25" :key="index">
+		<div
+			class="inventory__cell"
+			v-for="(cell, index) in 25"
+			:key="index"
+			@drop="handleDrop($event, cell)"
+			@dragover.prevent
+			@dragenter.prevent
+		>
 			<Item
 				v-if="getItemByCell(cell)"
 				:data="getItemByCell(cell)"
 				@click="openDetails(getItemByCell(cell))"
+				@dragstart="handleDragstart($event, getItemByCell(cell).type)"
+				draggable="true"
 			/>
 		</div>
 		<Details ref="detailsPopup" />
@@ -13,10 +22,12 @@
 
 <script setup>
 import { ref } from 'vue'
+import { storeToRefs } from 'pinia'
 import Item from '@/components/Item.vue'
 import Details from '@/components/Details.vue'
 import { useInventoryStore } from '@/store/inventory'
 
+const { items } = storeToRefs(useInventoryStore())
 const { getItemByCell } = useInventoryStore()
 
 const detailsPopup = ref(null)
@@ -24,6 +35,22 @@ const detailsPopup = ref(null)
 const openDetails = (data) => {
 	detailsPopup.value.data = data
 	detailsPopup.value.isOpen = true
+}
+
+function handleDragstart(event, itemType) {
+	event.dataTransfer.dropEffect = 'move'
+	event.dataTransfer.effectAllowed = 'move'
+	event.dataTransfer.setData('itemType', itemType)
+	event.target.classList.add('is-dragging')
+}
+
+function handleDrop(event, cellId) {
+	const itemType = event.dataTransfer.getData('itemType')
+
+	items.value = items.value.map((item) => {
+		if (item.type == itemType) item.cellId = cellId
+		return item
+	})
 }
 </script>
 
