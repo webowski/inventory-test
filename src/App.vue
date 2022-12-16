@@ -1,5 +1,7 @@
 <script setup></script>
 
 <template>
-	<div></div>
+	<div class="profile"></div>
+	<div class="inventory"></div>
+	<div class="notification"></div>
 </template>

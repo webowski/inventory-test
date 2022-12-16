@@ -1,0 +1,7 @@
+@mixin pseudoBlock($width: auto, $height: $width) {
+	width: $width;
+	height: $height;
+	content: '';
+	display: block;
+	position: absolute;
+}
