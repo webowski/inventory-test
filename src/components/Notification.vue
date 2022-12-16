@@ -1,6 +1,6 @@
 <template>
 	<div class="notification">
-		<img src="@/images/skeleton-line.svg" alt="" />
+		<div class="skeleton skeleton--line"></div>
 	</div>
 </template>
 
