@@ -18,7 +18,9 @@ const items = [
 </script>
 
 <template>
-	<div class="profile"></div>
+	<div class="profile">
+		<img src="/media/profile.jpg" alt="" />
+	</div>
 	<div class="inventory">
 		<div class="inventory__cell" v-for="(cell, index) in 25" :key="index">
 			<Item
