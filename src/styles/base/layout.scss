@@ -5,7 +5,7 @@ body {
 	min-width: 320px;
 	min-height: 100vh;
 	background-color: var(--bg);
-	cursor: url('@/images/cursor-default.svg'), default;
+	cursor: var(--cursor-default);
 }
 
 #app {
