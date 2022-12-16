@@ -26,3 +26,12 @@
 		@content;
 	}
 }
+
+@mixin buttonReset() {
+	padding: 0;
+	border: 0 none;
+	appearance: none;
+	box-shadow: none;
+	background: none;
+	cursor: pointer;
+}

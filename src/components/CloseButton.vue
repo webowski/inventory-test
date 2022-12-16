@@ -1,7 +1,7 @@
 <template>
-	<div class="close-button">
+	<button class="close-button">
 		<IconCross />
-	</div>
+	</button>
 </template>
 
 <script setup>
@@ -9,7 +9,10 @@ import IconCross from '@/images/icons/cross.svg'
 </script>
 
 <style lang="scss">
+@import '@/styles/base/mixins';
+
 .close-button {
+	@include buttonReset;
 	width: 1.5rem;
 	height: 1.5rem;
 	position: absolute;
