@@ -1,0 +1,23 @@
+input.form-input {
+	width: 100%;
+	height: auto;
+	padding: 10px 12px;
+	border: 1px solid var(--border);
+	border-radius: var(--radius-xs);
+	display: block;
+	background-color: var(--lightest);
+	background-repeat: no-repeat;
+	box-shadow: none;
+	transition: background-color var(--duration-md) linear, border-color var(--duration-md) linear,
+		color var(--duration-md) linear;
+	resize: none;
+	color: var(--intense);
+	font-size: 0.875rem;
+	line-height: 1.125rem;
+	font-family: inherit;
+	font-weight: 500;
+
+	@include placeholder() {
+		color: var(--muted);
+	}
+}

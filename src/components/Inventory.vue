@@ -4,9 +4,10 @@
 			<Item
 				:data="items[index]"
 				v-if="items.length >= cell && items.length < 25"
+				@click="openDetails(items[index])"
 			/>
 		</div>
-		<Details />
+		<Details ref="detailsPopup" />
 	</div>
 </template>
 
@@ -14,6 +15,8 @@
 import { ref } from 'vue'
 import Item from '@/components/Item.vue'
 import Details from './Details.vue'
+
+const detailsPopup = ref(null)
 
 const initialItems = [
 	{
@@ -31,6 +34,10 @@ const initialItems = [
 ]
 
 const items = ref(initialItems)
+
+const openDetails = (data) => {
+	detailsPopup.value.isOpen = true
+}
 </script>
 
 <style lang="scss">

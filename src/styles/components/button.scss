@@ -1,0 +1,40 @@
+.button {
+	width: 100%;
+	padding: 0.5rem 0.875rem;
+	display: inline-flex;
+	justify-content: center;
+	border: 1px solid transparent;
+	appearance: none;
+	background: var(--intense) none;
+	border-radius: 8px;
+	color: var(--inverse);
+	font-size: 0.875rem;
+	line-height: 1rem;
+	font-family: var(--fontExtra);
+	font-weight: 400;
+	letter-spacing: -0.02em;
+	text-decoration: none;
+	text-align: center;
+	cursor: pointer;
+	white-space: nowrap;
+	transition: background-color var(--duration-sm), border-color var(--duration-sm), color var(--duration-sm),
+		opacity var(--duration-sm);
+}
+
+.button:hover {
+	opacity: 0.9;
+}
+
+.button:active {
+	transform: translateY(1px);
+}
+
+.button--lg {
+	padding: 0.625rem 1.25rem;
+	letter-spacing: 0;
+}
+
+.button--danger {
+	background-color: var(--danger);
+	color: var(--intense);
+}

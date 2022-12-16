@@ -1,16 +1,57 @@
 <template>
-	<div class="details">
-		<CloseButton />
+	<div
+		class="details"
+		:class="{
+			'is-open': isOpen
+		}"
+	>
+		<CloseButton @click="isOpen = false" />
+
 		<div class="details__body">
-			<Figure size="lg" class="details__figure" />
-			<div class="skeleton skeleton--2"></div>
+			<Figure type="a" size="lg" class="details__figure" />
+			<div class="divider"></div>
+			<div class="skeleton skeleton--2 details__skeleton"></div>
+			<div class="divider"></div>
+			<button
+				class="button button--lg button--danger"
+				@click="isFormOpen = true"
+			>
+				Удалить предмет
+			</button>
+		</div>
+
+		<div
+			class="details__form"
+			:class="{
+				'is-open': isFormOpen
+			}"
+		>
+			<input
+				type="number"
+				class="form-input"
+				placeholder="Введите количество"
+				min="1"
+			/>
+
+			<div class="details__form-actions">
+				<button class="button" @click="isFormOpen = false">Отмена</button>
+				<button class="button button--danger">Подтвердить</button>
+			</div>
 		</div>
 	</div>
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import CloseButton from './CloseButton.vue'
 import Figure from './Figure.vue'
+
+const isOpen = ref(false)
+const isFormOpen = ref(false)
+
+defineExpose({
+	isOpen
+})
 </script>
 
 <style lang="scss">
@@ -22,12 +63,54 @@ import Figure from './Figure.vue'
 	top: 0;
 	right: 0;
 	z-index: 50;
-	background-color: rgba(#262626, 0.5);
+	background-color: var(--bg-overlay);
 	backdrop-filter: blur(8px);
 	border-left: 1px solid var(--border);
+	visibility: hidden;
+	right: -250px;
+	transition: right var(--duration-md), visibility var(--duration-md) step-end;
+	will-change: right;
+}
+
+.details.is-open {
+	right: 0;
+	visibility: visible;
+	transition: right var(--duration-md), visibility var(--duration-md) step-start;
 }
 
 .details__figure {
 	margin: 25px auto 30px;
+}
+
+.details__skeleton {
+	margin-bottom: 24px;
+}
+
+.details__form {
+	padding: 20px;
+	border-top: 1px solid var(--border);
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	backdrop-filter: blur(16px);
+	background-color: var(--bg-overlay);
+	transform: translateY(100%);
+	visibility: hidden;
+	transition: opacity var(--duration-md), transform var(--duration-md),
+		visibility var(--duration-md) step-end;
+}
+
+.details__form.is-open {
+	transform: translateY(0);
+	visibility: visible;
+	transition: opacity var(--duration-md), transform var(--duration-md),
+		visibility var(--duration-md) step-start;
+}
+
+.details__form-actions {
+	margin-top: 1.25rem;
+	display: flex;
+	gap: 0.625rem;
 }
 </style>
