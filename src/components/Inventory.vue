@@ -6,13 +6,14 @@
 				v-if="items.length >= cell && items.length < 25"
 			/>
 		</div>
-		<div class="inventory__details"></div>
+		<Details />
 	</div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import Item from '@/components/Item.vue'
+import Details from './Details.vue'
 
 const initialItems = [
 	{
@@ -43,6 +44,7 @@ const items = ref(initialItems)
 	overflow: hidden;
 	background-color: var(--bg-secondary);
 	user-select: none;
+	position: relative;
 }
 
 .inventory__cell {
