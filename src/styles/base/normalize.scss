@@ -10,7 +10,7 @@ html {
 	text-rendering: optimizelegibility;
 	-webkit-font-smoothing: subpixel-antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	cursor: default;
+	cursor: var(--cursor-default);
 }
 
 body {
