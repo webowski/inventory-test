@@ -1,10 +1,11 @@
 import { defineStore } from 'pinia'
+import { useStorage } from '@vueuse/core'
 
 export const useInventoryStore = defineStore({
 	id: 'inventory',
 
 	state: () => ({
-		items: [
+		items: useStorage('inventoryItems', [
 			{
 				type: 'a',
 				quantity: 4,
@@ -20,7 +21,7 @@ export const useInventoryStore = defineStore({
 				quantity: 5,
 				cellId: 3
 			}
-		]
+		])
 	}),
 
 	actions: {
