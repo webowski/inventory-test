@@ -21,7 +21,7 @@
 				class="button button--lg button--danger"
 				@click="isFormOpen = true"
 			>
-				Удалить предмет {{ data.quantity }}
+				Удалить предмет
 			</button>
 		</div>
 
