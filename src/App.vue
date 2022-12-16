@@ -20,6 +20,7 @@ const items = [
 <template>
 	<div class="profile">
 		<img src="/media/profile.jpg" alt="" />
+		<img src="@/images/skeleton.svg" alt="" />
 	</div>
 	<div class="inventory">
 		<div class="inventory__cell" v-for="(cell, index) in 25" :key="index">
@@ -29,5 +30,7 @@ const items = [
 			/>
 		</div>
 	</div>
-	<div class="notification"></div>
+	<div class="notification">
+		<img src="@/images/skeleton-line.svg" alt="" />
+	</div>
 </template>
