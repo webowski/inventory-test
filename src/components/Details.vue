@@ -63,6 +63,10 @@ const data = ref({})
 const isFormOpen = ref(false)
 
 const decreaseQuantity = () => {
+	if (inputQuantity.value.value > data.value.quantity) {
+		alert('Введено количество больше количества в инвентаре')
+		return false
+	}
 	data.value.quantity = data.value.quantity - inputQuantity.value.value
 
 	if (data.value.quantity === 0) {
