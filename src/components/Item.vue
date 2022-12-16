@@ -1,5 +1,5 @@
 <template>
-	<div class="item">
+	<div class="item" ref="item">
 		<Figure :type="data.type" />
 		<div class="item__quantity">{{ data.quantity }}</div>
 	</div>
@@ -7,6 +7,7 @@
 
 <script setup>
 import Figure from '@/components/Figure.vue'
+import { onMounted, ref } from 'vue'
 
 const props = defineProps({
 	data: {
@@ -14,21 +15,40 @@ const props = defineProps({
 		required: true
 	}
 })
+
+const item = ref(null)
 </script>
 
 <style lang="scss">
 .item {
-	width: 100%;
-	height: 100%;
+	width: 104px;
+	height: 100px;
 	display: grid;
 	place-items: center;
 	position: relative;
+	z-index: 1;
+	background: var(--bg-secondary) none;
 	cursor: var(--cursor-pointer);
 	transition: background-color 0.12s;
 }
 
 .item:hover {
 	background-color: var(--bg-hover);
+}
+
+.item:active {
+	cursor: var(--cursor-move);
+}
+
+.item.is-dragging {
+	cursor: var(--cursor-move);
+	border-radius: var(--radius-xxl);
+	border: 1px solid var(--border);
+	background-color: var(--bg-secondary);
+
+	.items__quantity {
+		visibility: hidden;
+	}
 }
 
 .item__quantity {

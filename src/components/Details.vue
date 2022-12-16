@@ -8,7 +8,12 @@
 		<CloseButton @click="isOpen = false" />
 
 		<div class="details__body">
-			<Figure type="a" size="lg" class="details__figure" />
+			<Figure
+				:type="data.type"
+				v-if="data.type"
+				size="lg"
+				class="details__figure"
+			/>
 			<div class="divider"></div>
 			<div class="skeleton skeleton--2 details__skeleton"></div>
 			<div class="divider"></div>
@@ -16,7 +21,7 @@
 				class="button button--lg button--danger"
 				@click="isFormOpen = true"
 			>
-				Удалить предмет
+				Удалить предмет {{ data.quantity }}
 			</button>
 		</div>
 
@@ -27,30 +32,58 @@
 			}"
 		>
 			<input
+				ref="inputQuantity"
 				type="number"
 				class="form-input"
 				placeholder="Введите количество"
 				min="1"
+				:max="data.quantity"
 			/>
 
 			<div class="details__form-actions">
 				<button class="button" @click="isFormOpen = false">Отмена</button>
-				<button class="button button--danger">Подтвердить</button>
+				<button class="button button--danger" @click="decreaseQuantity">
+					Подтвердить
+				</button>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import CloseButton from './CloseButton.vue'
 import Figure from './Figure.vue'
+import { useInventoryStore } from '@/store/inventory'
 
+const { removeItem } = useInventoryStore()
 const isOpen = ref(false)
+const inputQuantity = ref(null)
+const data = ref({})
 const isFormOpen = ref(false)
 
+const decreaseQuantity = () => {
+	data.value.quantity = data.value.quantity - inputQuantity.value.value
+
+	if (data.value.quantity === 0) {
+		removeItem(data.value.type)
+		isOpen.value = false
+	} else {
+		isFormOpen.value = false
+	}
+}
+
+watch(isOpen, () => {
+	if (!isOpen.value) isFormOpen.value = false
+})
+
+watch(data, () => {
+	inputQuantity.value.value = data.value.quantity
+})
+
 defineExpose({
-	isOpen
+	isOpen,
+	data
 })
 </script>
 

@@ -2,9 +2,9 @@
 	<div class="inventory">
 		<div class="inventory__cell" v-for="(cell, index) in 25" :key="index">
 			<Item
-				:data="items[index]"
-				v-if="items.length >= cell && items.length < 25"
-				@click="openDetails(items[index])"
+				v-if="getItemByCell(cell)"
+				:data="getItemByCell(cell)"
+				@click="openDetails(getItemByCell(cell))"
 			/>
 		</div>
 		<Details ref="detailsPopup" />
@@ -14,28 +14,15 @@
 <script setup>
 import { ref } from 'vue'
 import Item from '@/components/Item.vue'
-import Details from './Details.vue'
+import Details from '@/components/Details.vue'
+import { useInventoryStore } from '@/store/inventory'
+
+const { getItemByCell } = useInventoryStore()
 
 const detailsPopup = ref(null)
 
-const initialItems = [
-	{
-		type: 'a',
-		quantity: 4
-	},
-	{
-		type: 'b',
-		quantity: 2
-	},
-	{
-		type: 'c',
-		quantity: 5
-	}
-]
-
-const items = ref(initialItems)
-
 const openDetails = (data) => {
+	detailsPopup.value.data = data
 	detailsPopup.value.isOpen = true
 }
 </script>
@@ -64,6 +51,8 @@ const openDetails = (data) => {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	min-width: 0;
+	min-height: 0;
 
 	&:nth-child(-n + #{$cols-count}) {
 		border-top: none;
