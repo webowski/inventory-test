@@ -78,7 +78,7 @@ watch(isOpen, () => {
 })
 
 watch(data, () => {
-	inputQuantity.value.value = data.value.quantity
+	inputQuantity.value.value = ''
 })
 
 defineExpose({
