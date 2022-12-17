@@ -12,7 +12,8 @@
 				v-if="getItemByCell(cell)"
 				:data="getItemByCell(cell)"
 				@click="openDetails(getItemByCell(cell))"
-				@dragstart="handleDragstart($event, getItemByCell(cell).type)"
+				@dragstart.self="handleDragstart($event, getItemByCell(cell).type)"
+				@dragend.self="handleDragend"
 				draggable="true"
 			/>
 		</div>
@@ -42,6 +43,10 @@ function handleDragstart(event, itemType) {
 	event.dataTransfer.effectAllowed = 'move'
 	event.dataTransfer.setData('itemType', itemType)
 	event.target.classList.add('is-dragging')
+}
+
+function handleDragend(event) {
+	event.target.classList.remove('is-dragging')
 }
 
 function handleDrop(event, cellId) {
