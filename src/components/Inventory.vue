@@ -25,7 +25,15 @@ const { getItemByCell, isCellEmpty } = useInventoryStore()
 
 const detailsPopup = ref(null)
 
+const draggingItem = ref(null)
+const $draggingItem = ref(null)
+const initialPoint = ref({ x: null, y: null })
+const $targetCell = ref(null)
+const previousCellId = ref(null)
+const isDragging = ref(false)
+
 function openDetails(data) {
+	if (isDragging.value) return
 	detailsPopup.value.data = data
 	detailsPopup.value.isOpen = true
 }
@@ -34,15 +42,11 @@ function closeDetails() {
 	detailsPopup.value.isOpen = false
 }
 
-const draggingItem = ref(null)
-const $draggingItem = ref(null)
-const initialPoint = ref({ x: null, y: null })
-const $targetCell = ref(null)
-
 function handleCatch(event, cellId) {
 	$draggingItem.value = event.target
 	closeDetails()
 
+	previousCellId.value = cellId
 	const currentTranslate = getTranslate($draggingItem.value)
 
 	initialPoint.value.x =
@@ -58,10 +62,12 @@ function handleCatch(event, cellId) {
 	document.addEventListener('mousemove', handleDrag)
 	$draggingItem.value.addEventListener('mouseup', handleDrop)
 	draggingItem.value = getItemByCell(cellId)
+	isDragging.value = false
 }
 
 function handleDrag(event) {
 	$draggingItem.value.classList.add('is-dragging')
+	isDragging.value = true
 
 	$draggingItem.value.style.transform = `translate(
 		${event.clientX - initialPoint.value.x}px,
@@ -73,12 +79,14 @@ function handleDrag(event) {
 
 	if (!$elementUnder) return
 
-	const $dropCell = $elementUnder.closest('.inventory__cell')
+	let $dropCell = $elementUnder.closest('.inventory__cell')
+	if ($elementUnder.classList.contains('inventory__cell'))
+		$dropCell = $elementUnder
 
 	if (!$dropCell) return
 
 	const cellId = Number($dropCell.dataset.cellId)
-	if (!isCellEmpty(cellId)) return
+	if (!isCellEmpty(cellId) && previousCellId.value !== cellId) return
 
 	if ($targetCell.value != $dropCell) {
 		if ($targetCell.value) {
@@ -108,7 +116,6 @@ function handleDrop(event) {
 		const cellId = Number($targetCell.value.dataset.cellId)
 		handleCellMouseup(cellId)
 		leaveTargetCell($targetCell.value)
-	} else {
 	}
 }
 
