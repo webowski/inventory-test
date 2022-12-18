@@ -7,7 +7,7 @@
 
 <script setup>
 import Figure from '@/components/Figure.vue'
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
 
 const item = ref(null)
 
@@ -20,6 +20,8 @@ const props = defineProps({
 </script>
 
 <style lang="scss">
+@import '@/styles/base/mixins';
+
 .item {
 	width: 104px;
 	height: 100px;
@@ -30,6 +32,17 @@ const props = defineProps({
 	background: var(--bg-secondary) none;
 	cursor: var(--cursor-pointer);
 	transition: background-color 0.12s;
+
+	&::after {
+		@include pseudoBlock(100%);
+		left: 0;
+		right: 0;
+		z-index: 2;
+	}
+
+	> * {
+		pointer-events: none;
+	}
 }
 
 .item:hover {
@@ -45,6 +58,7 @@ const props = defineProps({
 	border-radius: var(--radius-xxl);
 	border: 1px solid var(--border);
 	background-color: var(--bg-secondary);
+	z-index: 5;
 
 	.item__quantity {
 		visibility: hidden;

@@ -1,20 +1,12 @@
 <template>
-	<div class="inventory">
-		<div
-			class="inventory__cell"
-			v-for="(cell, index) in 25"
-			:key="index"
-			@drop="handleDrop($event, cell)"
-			@dragover.prevent
-			@dragenter.prevent
-		>
+	<div class="inventory" @click="closeDetails">
+		<div class="inventory__cell" v-for="cellId in 25" :data-cell-id="cellId">
 			<Item
-				v-if="getItemByCell(cell)"
-				:data="getItemByCell(cell)"
-				@click="openDetails(getItemByCell(cell))"
-				@dragstart.self="handleDragstart($event, getItemByCell(cell).type)"
-				@dragend.self="handleDragend"
-				draggable="true"
+				v-if="getItemByCell(cellId)"
+				:data="getItemByCell(cellId)"
+				@click.stop="openDetails(getItemByCell(cellId))"
+				@mousedown="handleCatch($event, cellId)"
+				@dragstart.prevent
 			/>
 		</div>
 		<Details ref="detailsPopup" />
@@ -29,31 +21,123 @@ import Details from '@/components/Details.vue'
 import { useInventoryStore } from '@/store/inventory'
 
 const { items } = storeToRefs(useInventoryStore())
-const { getItemByCell } = useInventoryStore()
+const { getItemByCell, isCellEmpty } = useInventoryStore()
 
 const detailsPopup = ref(null)
 
-const openDetails = (data) => {
+function openDetails(data) {
 	detailsPopup.value.data = data
 	detailsPopup.value.isOpen = true
 }
 
-function handleDragstart(event, itemType) {
-	event.dataTransfer.dropEffect = 'move'
-	event.dataTransfer.effectAllowed = 'move'
-	event.dataTransfer.setData('itemType', itemType)
-	event.target.classList.add('is-dragging')
+function closeDetails() {
+	detailsPopup.value.isOpen = false
 }
 
-function handleDragend(event) {
-	event.target.classList.remove('is-dragging')
+const draggingItem = ref(null)
+const $draggingItem = ref(null)
+const initialPoint = ref({ x: null, y: null })
+const $targetCell = ref(null)
+
+function handleCatch(event, cellId) {
+	$draggingItem.value = event.target
+	closeDetails()
+
+	const currentTranslate = getTranslate($draggingItem.value)
+
+	initialPoint.value.x =
+		event.offsetX +
+		$draggingItem.value.getBoundingClientRect().left -
+		currentTranslate.x
+
+	initialPoint.value.y =
+		event.offsetY +
+		$draggingItem.value.getBoundingClientRect().top -
+		currentTranslate.y
+
+	document.addEventListener('mousemove', handleDrag)
+	$draggingItem.value.addEventListener('mouseup', handleDrop)
+	draggingItem.value = getItemByCell(cellId)
 }
 
-function handleDrop(event, cellId) {
-	const itemType = event.dataTransfer.getData('itemType')
+function handleDrag(event) {
+	$draggingItem.value.classList.add('is-dragging')
+
+	$draggingItem.value.style.transform = `translate(
+		${event.clientX - initialPoint.value.x}px,
+		${event.clientY - initialPoint.value.y}px)`
+
+	$draggingItem.value.style.pointerEvents = 'none'
+	const $elementUnder = document.elementFromPoint(event.clientX, event.clientY)
+	$draggingItem.value.style.pointerEvents = 'auto'
+
+	if (!$elementUnder) return
+
+	const $dropCell = $elementUnder.closest('.inventory__cell')
+
+	if (!$dropCell) return
+
+	const cellId = Number($dropCell.dataset.cellId)
+	if (!isCellEmpty(cellId)) return
+
+	if ($targetCell.value != $dropCell) {
+		if ($targetCell.value) {
+			leaveTargetCell($targetCell.value)
+		}
+
+		$targetCell.value = $dropCell
+
+		if ($targetCell.value) {
+			enterTargetCell($targetCell.value)
+		}
+	}
+}
+
+function handleDrop(event) {
+	event.stopPropagation()
+
+	$draggingItem.value.classList.remove('is-dragging')
+	$draggingItem.value.style.transform = 'translate(0, 0)'
+
+	document.removeEventListener('mousemove', handleDrag)
+	$draggingItem.value.removeEventListener('mouseup', handleDrop)
+
+	if ($targetCell.value) {
+		$targetCell.value.dispatchEvent(new Event('mouseup'))
+
+		const cellId = Number($targetCell.value.dataset.cellId)
+		handleCellMouseup(cellId)
+		leaveTargetCell($targetCell.value)
+	} else {
+	}
+}
+
+function getTranslate($element) {
+	const transformStyle = window.getComputedStyle($element).transform
+	const matrix = new DOMMatrixReadOnly(transformStyle)
+
+	return {
+		x: matrix.m41,
+		y: matrix.m42
+	}
+}
+
+function enterTargetCell($element) {
+	$element.classList.add('is-droppable')
+}
+
+function leaveTargetCell($element) {
+	$element.classList.remove('is-droppable')
+	$targetCell.value = null
+}
+
+function handleCellMouseup(cellId) {
+	if (draggingItem.value.cellId === cellId) {
+		return false
+	}
 
 	items.value = items.value.map((item) => {
-		if (item.type == itemType) item.cellId = cellId
+		if (item.type == draggingItem.value.type) item.cellId = cellId
 		return item
 	})
 }
@@ -93,5 +177,9 @@ function handleDrop(event, cellId) {
 	&:nth-child(#{$rows-count}n + 1) {
 		border-left: none;
 	}
+}
+
+.inventory__cell.is-droppable {
+	background-color: var(--bg-hover);
 }
 </style>

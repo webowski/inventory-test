@@ -15,7 +15,7 @@
 	letter-spacing: -0.02em;
 	text-decoration: none;
 	text-align: center;
-	cursor: pointer;
+	cursor: var(--cursor-pointer);
 	white-space: nowrap;
 	transition: background-color var(--duration-sm), border-color var(--duration-sm), color var(--duration-sm),
 		opacity var(--duration-sm);
@@ -37,4 +37,11 @@
 .button--danger {
 	background-color: var(--danger);
 	color: var(--white);
+}
+
+.button--beyond {
+	position: absolute;
+	top: -20px;
+	right: 2rem;
+	width: auto;
 }

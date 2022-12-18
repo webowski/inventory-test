@@ -4,6 +4,7 @@
 		:class="{
 			'is-open': isOpen
 		}"
+		@click.stop
 	>
 		<CloseButton @click="isOpen = false" />
 
