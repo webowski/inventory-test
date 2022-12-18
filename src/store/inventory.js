@@ -28,7 +28,6 @@ export const useInventoryStore = defineStore({
 	actions: {
 		removeItem(type) {
 			this.items = this.items.filter((item) => item.type !== type)
-			console.log(this.items)
 		},
 
 		getItemByCell(cellId) {
