@@ -72,7 +72,7 @@ const props = defineProps({
 	position: absolute;
 	bottom: 0;
 	right: 0;
-	color: var(--muted);
+	color: rgba(#262626, 0.6);
 	background-color: var(--bg-secondary);
 	border-top: 1px solid var(--border);
 	border-left: 1px solid var(--border);
@@ -83,5 +83,9 @@ const props = defineProps({
 	display: flex;
 	align-items: center;
 	justify-content: center;
+
+	[data-theme='dark'] & {
+		color: var(--muted);
+	}
 }
 </style>
